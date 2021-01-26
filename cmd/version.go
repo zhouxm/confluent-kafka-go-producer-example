@@ -1,13 +1,13 @@
 package cmd
 
 import (
-	version "confluent-kafka-go-producer-example/version"
 	"fmt"
+	version "kafka-producer/version"
 	"os"
 
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	log "github.com/sirupsen/logrus"
 	cobra "github.com/spf13/cobra"
-	kafka "gopkg.in/confluentinc/confluent-kafka-go.v1/kafka"
 )
 
 var (

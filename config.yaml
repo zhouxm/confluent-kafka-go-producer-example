@@ -1,4 +1,4 @@
 logLevel: "info"
-topic: "test-topic1"
+topic: "bcs-demo"
 kafkaConfig:
   bootstrap.servers: "localhost:9092"

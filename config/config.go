@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	log "github.com/sirupsen/logrus"
-	viper "github.com/spf13/viper"
+	"github.com/spf13/viper"
 )
 
 // ParsedConfig holds the configuration settings for this program. The

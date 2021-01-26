@@ -21,5 +21,5 @@ was installed before.
 The example application can be run with the command:
 
 ```
-confluent-kafka-go-producer-example-amd64 -c config.yaml process
+kafka-producer -c config.yaml process
 ```

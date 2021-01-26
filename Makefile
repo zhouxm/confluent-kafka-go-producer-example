@@ -1,6 +1,6 @@
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-PROJECT_NAME:=confluent-kafka-go-producer-example
+PROJECT_NAME:=kafka-producer
 VERSION:=$(shell $(ROOT_DIR)/git-revision.sh)
 BUILD_DATE:=$(shell LANG=C date -u)
 BUILD_IMAGE:=confluent-kafka-go-build-system:1.15.6-alpine3.12
@@ -29,7 +29,7 @@ all:
 	# Replace confluent-kafka-go with local version for build
 	docker exec -t -w /go/src/$(PROJECT_NAME) build-container go mod edit -replace gopkg.in/confluentinc/confluent-kafka-go.v1=/tmp/confluent-kafka-go.v1
 	# amd64 build
-	docker exec -t -w /go/src/$(PROJECT_NAME) build-container /bin/bash -c "GOOS=linux GOARCH=amd64 go build -v -ldflags \"-v -s -w -extldflags '-static' -X 'confluent-kafka-go-producer-example/version.Version=$(VERSION)' -X 'confluent-kafka-go-producer-example/version.BuildDate=$(BUILD_DATE)'\" -a -tags \"static netgo musl\" -installsuffix netgo -o app-amd64"
+	docker exec -t -w /go/src/$(PROJECT_NAME) build-container /bin/bash -c "GOOS=linux GOARCH=amd64 go build -v -ldflags \"-v -s -w -extldflags '-static' -X 'kafka-producer/version.Version=$(VERSION)' -X 'kafka-producer/version.BuildDate=$(BUILD_DATE)'\" -a -tags \"static netgo musl\" -installsuffix netgo -o app-amd64"
 	mkdir -p $(ROOT_DIR)/bin
 	docker cp build-container:/go/src/$(PROJECT_NAME)/app-amd64 ./bin/$(PROJECT_NAME)-amd64
 	docker rm -f build-container

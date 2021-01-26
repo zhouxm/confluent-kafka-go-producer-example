@@ -1,14 +1,14 @@
 package cmd
 
 import (
-	config "confluent-kafka-go-producer-example/config"
 	"encoding/json"
 	"fmt"
+	"kafka-producer/config"
 	"os"
 
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	log "github.com/sirupsen/logrus"
-	cobra "github.com/spf13/cobra"
-	kafka "gopkg.in/confluentinc/confluent-kafka-go.v1/kafka"
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -94,9 +94,9 @@ func process(cmd *cobra.Command, args []string) error {
 			switch ev := e.(type) {
 			case *kafka.Message:
 				if ev.TopicPartition.Error != nil {
-					fmt.Printf("Failed to deliver message: %v\n", ev.TopicPartition)
+					log.Printf("Failed to deliver message: %v\n", ev.TopicPartition)
 				} else {
-					fmt.Printf("Successfully produced record to topic %s partition [%d] @ offset %v\n",
+					log.Printf("Successfully produced record to topic %s partition [%d] @ offset %v\n",
 						*ev.TopicPartition.Topic, ev.TopicPartition.Partition, ev.TopicPartition.Offset)
 				}
 			}
@@ -110,7 +110,7 @@ func process(cmd *cobra.Command, args []string) error {
 		}
 		recordValue, _ := json.Marshal(&data)
 
-		fmt.Printf("Preparing to produce record: %s\t%s\n", recordKey, recordValue)
+		log.Printf("Preparing to produce record: %s\t%s\n", recordKey, recordValue)
 
 		p.Produce(&kafka.Message{
 			TopicPartition: kafka.TopicPartition{
@@ -125,7 +125,7 @@ func process(cmd *cobra.Command, args []string) error {
 	// Wait for all messages to be delivered
 	p.Flush(15 * 1000)
 
-	fmt.Printf("10 messages were produced to topic %s!\n", config.ParsedConfig.Topic)
+	log.Printf("10 messages were produced to topic %s!\n", config.ParsedConfig.Topic)
 
 	p.Close()
 

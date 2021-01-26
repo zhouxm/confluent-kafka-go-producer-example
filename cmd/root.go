@@ -1,23 +1,24 @@
 package cmd
 
 import (
-	config "confluent-kafka-go-producer-example/config"
+	"kafka-producer/config"
 	"os"
 
 	log "github.com/sirupsen/logrus"
-	cobra "github.com/spf13/cobra"
-	viper "github.com/spf13/viper"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var (
 	rootCmd = &cobra.Command{
-		Use: "confluent-kafka-go-producer-example",
+		Use: "kafka-producer",
 		Run: func(cmd *cobra.Command, args []string) {
 			cmd.Help()
 			os.Exit(1)
 		},
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			log.Tracef("PersistentPreRunE(...) called")
+			log.Info(args)
 
 			err := config.ParsedConfig.Parse()
 			if err != nil {
